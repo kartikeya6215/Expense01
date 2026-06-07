@@ -261,15 +261,15 @@
 
         <div class="balance-card">
             <h3>Net Balance</h3>
-            <div class="balance-amount" id="net-balance">$0.00</div>
+            <div class="balance-amount" id="net-balance">Rs0.00</div>
             <div class="stats-grid">
                 <div class="stat-box">
                     <text>Total Income</text>
-                    <span class="stat-income" id="total-income">+$0.00</span>
+                    <span class="stat-income" id="total-income">+Rs0.00</span>
                 </div>
                 <div class="stat-box">
                     <text>Total Expenses</text>
-                    <span class="stat-expense" id="total-expense">-$0.00</span>
+                    <span class="stat-expense" id="total-expense">-Rs0.00</span>
                 </div>
             </div>
         </div>
@@ -399,9 +399,9 @@
             const netBalance = totalIncome - totalExpense;
 
             // Update Metric Text
-            document.getElementById('net-balance').innerText = `$${netBalance.toFixed(2)}`;
-            document.getElementById('total-income').innerText = `+$${totalIncome.toFixed(2)}`;
-            document.getElementById('total-expense').innerText = `-$${totalExpense.toFixed(2)}`;
+            document.getElementById('net-balance').innerText = `Rs{netBalance.toFixed(2)}`;
+            document.getElementById('total-income').innerText = `+Rs{totalIncome.toFixed(2)}`;
+            document.getElementById('total-expense').innerText = `-Rs{totalExpense.toFixed(2)}`;
 
             renderHistory();
         }
@@ -418,14 +418,14 @@
 
             transactions.forEach(tx => {
                 const li = document.createElement('li');
-                li.className = `transaction-item tx-${tx.type}`;
+                li.className = `transaction-item tx-Rs{tx.type}`;
 
                 li.innerHTML = `
                     <div class="tx-details">
-                        <span class="tx-title">${tx.title}</span>
-                        <span class="tx-meta">${tx.date} • ${tx.tag}</span>
+                        <span class="tx-title">{tx.title}</span>
+                        <span class="tx-meta">{tx.date} • {tx.tag}</span>
                     </div>
-                    <span class="tx-amount">${tx.type === 'income' ? '+' : '-'}$${tx.amount.toFixed(2)}</span>
+                    <span class="tx-amount">{tx.type === 'income' ? '+' : '-'}{tx.amount.toFixed(2)}</span>
                 `;
                 listElement.appendChild(li);
             });
