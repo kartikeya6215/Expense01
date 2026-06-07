@@ -4,99 +4,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minimal Expense Tracker</title>
+    <title>Rupee Tracker</title>
     <style>
         :root {
-            --bg-color: #f8f9fa;
+            --bg-color: #f4f6f9;
             --card-bg: #ffffff;
-            --text-main: #212529;
+            --text-main: #1a1c1e;
             --text-muted: #6c757d;
-            --income-color: #2ec4b6;
-            --expense-color: #e63946;
+            --income-color: #00b4d8;
+            --expense-color: #ef476f;
+            --accent-color: #06d6a0;
             --border-radius: 16px;
-            --transition: all 0.3s ease;
+            --transition: all 0.25s ease;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            padding: 20px 16px;
+            padding: 16px;
             display: flex;
             justify-content: center;
         }
 
         .container {
             width: 100%;
-            max-width: 480px;
+            max-width: 440px;
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 20px;
         }
 
         header {
-            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
         }
 
         header h1 {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
             letter-spacing: -0.5px;
         }
 
-        header p {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin-top: 4px;
+        .btn-download {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-main);
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: var(--transition);
         }
 
-        /* Dashboard Overview Cards */
+        .btn-download:active {
+            transform: scale(0.95);
+            background: #f8f9fa;
+        }
+
+        /* Dashboard Metrics */
         .balance-card {
             background: var(--card-bg);
             border-radius: var(--border-radius);
             padding: 24px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
             text-align: center;
         }
 
         .balance-card h3 {
-            font-size: 14px;
+            font-size: 13px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             color: var(--text-muted);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .balance-card .balance-amount {
-            font-size: 36px;
+            font-size: 34px;
             font-weight: 700;
             margin-bottom: 20px;
-            letter-spacing: -1px;
+            letter-spacing: -0.5px;
         }
 
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
-            border-top: 1px solid #edf2f7;
-            padding-top: 20px;
+            border-top: 1px solid #f1f3f5;
+            padding-top: 18px;
         }
 
         .stat-box text {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text-muted);
             display: block;
             margin-bottom: 4px;
+            text-transform: uppercase;
         }
 
         .stat-box span {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
         }
 
@@ -106,7 +124,7 @@
         /* Navigation Tabs */
         .tabs {
             display: flex;
-            background: #e9ecef;
+            background: #eef1f6;
             padding: 4px;
             border-radius: 12px;
         }
@@ -115,19 +133,19 @@
             flex: 1;
             background: none;
             border: none;
-            padding: 10px;
-            font-size: 14px;
+            padding: 12px;
+            font-size: 13px;
             font-weight: 600;
             color: var(--text-muted);
             cursor: pointer;
-            border-radius: 10px;
+            border-radius: 9px;
             transition: var(--transition);
         }
 
         .tab-btn.active {
             background: var(--card-bg);
             color: var(--text-main);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
         }
 
         /* Forms */
@@ -135,7 +153,7 @@
             background: var(--card-bg);
             border-radius: var(--border-radius);
             padding: 20px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
             display: none;
         }
 
@@ -144,12 +162,12 @@
         }
 
         .form-group {
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
 
         .form-group label {
             display: block;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             margin-bottom: 6px;
             color: var(--text-main);
@@ -158,16 +176,16 @@
         .form-group input, .form-group select {
             width: 100%;
             padding: 12px;
-            border: 1px solid #dee2e6;
+            border: 1px solid #e2e8f0;
             border-radius: 10px;
-            font-size: 15px;
-            background-color: #fafafa;
+            font-size: 14px;
+            background-color: #fafbfe;
             outline: none;
             transition: var(--transition);
         }
 
         .form-group input:focus, .form-group select:focus {
-            border-color: #a8dadc;
+            border-color: #cbd5e1;
             background-color: #fff;
         }
 
@@ -178,10 +196,11 @@
             color: #fff;
             border: none;
             border-radius: 10px;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
+            margin-top: 6px;
         }
 
         button.btn-submit:active {
@@ -193,21 +212,21 @@
             background: var(--card-bg);
             border-radius: var(--border-radius);
             padding: 20px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
         }
 
         .history-section h2 {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
 
         .transaction-list {
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            max-height: 280px;
+            gap: 10px;
+            max-height: 300px;
             overflow-y: auto;
         }
 
@@ -217,7 +236,7 @@
             align-items: center;
             padding: 12px;
             border-radius: 10px;
-            background: #f8f9fa;
+            background: #f8fafc;
             font-size: 14px;
         }
 
@@ -246,7 +265,7 @@
         .empty-state {
             text-align: center;
             color: var(--text-muted);
-            font-size: 14px;
+            font-size: 13px;
             padding: 20px 0;
         }
     </style>
@@ -255,81 +274,77 @@
 
     <div class="container">
         <header>
-            <h1>Finances</h1>
-            <p id="current-date">Today</p>
+            <h1>Rupee Tracker</h1>
+            <button class="btn-download" onclick="downloadCSV()">Download CSV</button>
         </header>
 
         <div class="balance-card">
             <h3>Net Balance</h3>
-            <div class="balance-amount" id="net-balance">Rs0.00</div>
+            <div class="balance-amount" id="net-balance">₹0.00</div>
             <div class="stats-grid">
                 <div class="stat-box">
-                    <text>Total Income</text>
-                    <span class="stat-income" id="total-income">+Rs0.00</span>
+                    <text>Income</text>
+                    <span class="stat-income" id="total-income">+₹0.00</span>
                 </div>
                 <div class="stat-box">
-                    <text>Total Expenses</text>
-                    <span class="stat-expense" id="total-expense">-Rs0.00</span>
+                    <text>Expenses</text>
+                    <span class="stat-expense" id="total-expense">-₹0.00</span>
                 </div>
             </div>
         </div>
 
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('expense')">Log Expense</button>
-            <button class="tab-btn" onclick="switchTab('income')">Log Income</button>
+            <button class="tab-btn active" onclick="switchTab('expense')">Spendings</button>
+            <button class="tab-btn" onclick="switchTab('income')">Received Money</button>
         </div>
 
         <div id="expense-form-section" class="form-section active">
             <form id="expense-form" onsubmit="addExpense(event)">
                 <div class="form-group">
-                    <label for="exp-amount">Amount</label>
-                    <input type="number" id="exp-amount" step="0.01" placeholder="0.00" required>
+                    <label for="exp-amount">Amount (₹)</label>
+                    <input type="number" id="exp-amount" step="0.01" placeholder="Enter amount" required>
                 </div>
                 <div class="form-group">
-                    <label for="exp-desc">What did you spend on?</label>
-                    <input type="text" id="exp-desc" placeholder="e.g., Coffee, Groceries" required>
+                    <label for="exp-desc">Description</label>
+                    <input type="text" id="exp-desc" placeholder="e.g., Dinner, Metro, Rent" required>
                 </div>
                 <div class="form-group">
-                    <label for="exp-type">Type</label>
+                    <label for="exp-type">Interval Category</label>
                     <select id="exp-type">
                         <option value="Daily">Daily Expense</option>
-                        <option value="Monthly">Monthly Bill/Subscription</option>
+                        <option value="Monthly">Monthly Bill</option>
                     </select>
                 </div>
-                <button type="submit" class="btn-submit">Add Expense</button>
+                <button type="submit" class="btn-submit">Log Expense</button>
             </form>
         </div>
 
         <div id="income-form-section" class="form-section">
             <form id="income-form" onsubmit="addIncome(event)">
                 <div class="form-group">
-                    <label for="inc-amount">Amount Received</label>
-                    <input type="number" id="inc-amount" step="0.01" placeholder="0.00" required>
+                    <label for="inc-amount">Amount Received (₹)</label>
+                    <input type="number" id="inc-amount" step="0.01" placeholder="Enter amount" required>
                 </div>
                 <div class="form-group">
                     <label for="inc-source">Payer's Name / Source</label>
-                    <input type="text" id="inc-source" placeholder="e.g., Company, John Doe" required>
+                    <input type="text" id="inc-source" placeholder="Who paid you?" required>
                 </div>
-                <button type="submit" class="btn-submit">Add Income</button>
+                <button type="submit" class="btn-submit">Log Income</button>
             </form>
         </div>
 
         <div class="history-section">
-            <h2>Recent History</h2>
-            <ul class="transaction-list" id="tx-history">
-                </ul>
+            <h2>Transaction Log</h2>
+            <ul class="transaction-list" id="tx-history"></ul>
         </div>
     </div>
 
     <script>
-        // Set Current Date Display
-        const options = { weekday: 'long', month: 'short', day: 'numeric' };
-        document.getElementById('current-date').innerText = new Date().toLocaleDateString('en-US', options);
+        // Optional: Replace with your deployed Google Apps Script URL to log data on cloud
+        const GOOGLE_SCRIPT_URL = '';
 
-        // Core App Data State
-        let transactions = JSON.parse(localStorage.getItem('minimal_tracker_txs')) || [];
+        let transactions = JSON.parse(localStorage.getItem('rupee_tracker_txs')) || [];
 
-        // Tab Switching Logic
         function switchTab(tabType) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.form-section').forEach(form => form.classList.remove('active'));
@@ -343,95 +358,119 @@
             }
         }
 
-        // Handle adding Expense
         function addExpense(e) {
             e.preventDefault();
             const amount = parseFloat(document.getElementById('exp-amount').value);
             const description = document.getElementById('exp-desc').value.trim();
             const type = document.getElementById('exp-type').value;
 
-            const transaction = {
+            const tx = {
                 id: Date.now(),
                 type: 'expense',
-                tag: type, // Daily or Monthly
+                tag: type,
                 amount: amount,
                 title: description,
-                date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+                date: new Date().toLocaleDateString('en-IN', { year:'numeric', month: 'short', day: 'numeric' })
             };
 
-            transactions.unshift(transaction);
-            updateAppState();
+            saveTransaction(tx);
             document.getElementById('expense-form').reset();
         }
 
-        // Handle adding Income
         function addIncome(e) {
             e.preventDefault();
             const amount = parseFloat(document.getElementById('inc-amount').value);
             const source = document.getElementById('inc-source').value.trim();
 
-            const transaction = {
+            const tx = {
                 id: Date.now(),
                 type: 'income',
                 tag: 'Received',
                 amount: amount,
                 title: `From: ${source}`,
-                date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+                date: new Date().toLocaleDateString('en-IN', { year:'numeric', month: 'short', day: 'numeric' })
             };
 
-            transactions.unshift(transaction);
-            updateAppState();
+            saveTransaction(tx);
             document.getElementById('income-form').reset();
         }
 
-        // Calculate Totals and Render Interface
-        function updateAppState() {
-            localStorage.setItem('minimal_tracker_txs', JSON.stringify(transactions));
+        function saveTransaction(tx) {
+            transactions.unshift(tx);
+            updateAppState();
             
-            let totalIncome = 0;
-            let totalExpense = 0;
+            // Background push to Google Sheets if link is provided
+            if(GOOGLE_SCRIPT_URL) {
+                fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(tx)
+                }).catch(err => console.log('Cloud sync postponed: ', err));
+            }
+        }
+
+        function updateAppState() {
+            localStorage.setItem('rupee_tracker_txs', JSON.stringify(transactions));
+            let income = 0, expense = 0;
 
             transactions.forEach(tx => {
-                if (tx.type === 'income') totalIncome += tx.amount;
-                if (tx.type === 'expense') totalExpense += tx.amount;
+                if (tx.type === 'income') income += tx.amount;
+                if (tx.type === 'expense') expense += tx.amount;
             });
 
-            const netBalance = totalIncome - totalExpense;
-
-            // Update Metric Text
-            document.getElementById('net-balance').innerText = `Rs{netBalance.toFixed(2)}`;
-            document.getElementById('total-income').innerText = `+Rs{totalIncome.toFixed(2)}`;
-            document.getElementById('total-expense').innerText = `-Rs{totalExpense.toFixed(2)}`;
+            const net = income - expense;
+            document.getElementById('net-balance').innerText = `₹${net.toFixed(2)}`;
+            document.getElementById('total-income').innerText = `+₹${income.toFixed(2)}`;
+            document.getElementById('total-expense').innerText = `-₹${expense.toFixed(2)}`;
 
             renderHistory();
         }
 
-        // Render Transaction History List
         function renderHistory() {
-            const listElement = document.getElementById('tx-history');
-            listElement.innerHTML = '';
+            const list = document.getElementById('tx-history');
+            list.innerHTML = '';
 
             if (transactions.length === 0) {
-                listElement.innerHTML = '<li class="empty-state">No transactions tracked yet</li>';
+                list.innerHTML = '<li class="empty-state">No clear balances recorded.</li>';
                 return;
             }
 
             transactions.forEach(tx => {
                 const li = document.createElement('li');
-                li.className = `transaction-item tx-Rs{tx.type}`;
-
+                li.className = `transaction-item tx-${tx.type}`;
                 li.innerHTML = `
                     <div class="tx-details">
-                        <span class="tx-title">{tx.title}</span>
-                        <span class="tx-meta">{tx.date} • {tx.tag}</span>
+                        <span class="tx-title">${tx.title}</span>
+                        <span class="tx-meta">${tx.date} • ${tx.tag}</span>
                     </div>
-                    <span class="tx-amount">{tx.type === 'income' ? '+' : '-'}{tx.amount.toFixed(2)}</span>
+                    <span class="tx-amount">${tx.type === 'income' ? '+' : '-'}₹${tx.amount.toFixed(2)}</span>
                 `;
-                listElement.appendChild(li);
+                list.appendChild(li);
             });
         }
 
-        // Initial application setup load
+        // CSV Downloader Module
+        function downloadCSV() {
+            if(transactions.length === 0) {
+                alert("No transactions found to download.");
+                return;
+            }
+            let csvContent = "data:text/csv;charset=utf-8,Date,Type,Title/Source,Category,Amount (INR)\n";
+            transactions.forEach(tx => {
+                let row = `"${tx.date}","${tx.type}","${tx.title}","${tx.tag}","${tx.amount}"\n`;
+                csvContent += row;
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `Statement_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
         updateAppState();
     </script>
 </body>
